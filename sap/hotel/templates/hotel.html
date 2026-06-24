@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>tipo de Habitacion</title>
+</head>
+<body>
+
+<div> <h1 > modelo de habitacion </h1>
+    {% for x in hotel %}
+      <div> ID : <th>{{ x.id }}</th></div>
+      <div> NUMERO DE HABITACION  : <th>{{ x.number}}</th></div>
+      <div> PRECIO POR NOCHE : <th>{{ x.precio}}</th></div>
+      <div> TIPO DE HABITACION : <th>{{ x.tipo}}</th></div>
+      <div> CAPACIDAD DE LA HABITACION  : <th>{{ x.capacidad}}</th></div>
+
+    {% endfor %}
+
+</div>
+
+
+</body>
+</html>

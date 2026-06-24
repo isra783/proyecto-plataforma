@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>bienbenidos </title>
+</head>
+<body>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4 shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="#">Hotel Cotopaxi Inn</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2 class="mb-4">Disponibilidad de Habitaciones</h2>
+
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-bordered shadow-sm bg-white">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Número</th>
+                        <th>Piso</th>
+                        <th>Tipo</th>
+                        <th>Capacidad</th>
+                        <th>Precio por Noche</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for hab in habitaciones %}
+                    <tr>
+                        <td class="fw-bold">{{ hab.numero }}</td>
+                        <td>{{ hab.piso }}</td>
+                        <td>{{ hab.get_tipo_display }}</td>
+                        <td>{{ hab.capacidad }} personas</td>
+                        <td>${{ hab.precio }}</td>
+                        <td>
+                            {% if hab.disponible %}
+                                <span class="badge bg-success">Disponible</span>
+                            {% else %}
+                                <span class="badge bg-danger">Ocupada</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center py-4 text-muted">
+                            Aún no hay habitaciones registradas. Ingresa al panel de administración para cargar tus 5 registros de prueba.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</body>
+</html>
