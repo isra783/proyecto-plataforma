@@ -10,7 +10,7 @@ class habitat(models.Model):
     tipo_CHOICES = [
         ('s', 'simple'),
         ('d', 'doble'),
-        ('F', 'familiar'),
+        ('f', 'familiar'),
         ('pv', 'suite'),
     ]
     numero = models.IntegerField()

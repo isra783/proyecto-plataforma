@@ -1,23 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>tipo de Habitacion</title>
+    <title>Modelos de Habitación - Cotopaxi Inn</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-light">
 
-<div> <h1 > modelo de habitacion </h1>
-    {% for x in hotel %}
-      <div> ID : <th>{{ x.id }}</th></div>
-      <div> NUMERO DE HABITACION  : <th>{{ x.number}}</th></div>
-      <div> PRECIO POR NOCHE : <th>{{ x.precio}}</th></div>
-      <div> TIPO DE HABITACION : <th>{{ x.tipo}}</th></div>
-      <div> CAPACIDAD DE LA HABITACION  : <th>{{ x.capacidad}}</th></div>
+<div class="container mt-5">
+    <h1 class="mb-4 text-center text-primary">
+        {{ tipo_seleccionado }}
+    </h1>
 
-    {% endfor %}
+    <div class="mb-3">
+        <a href="{% url 'inicio' %}" class="btn btn-secondary">&larr; Volver al Inicio</a>
+    </div>
 
+    <div class="card shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Número</th>
+                        <th>Tipo</th>
+                        <th>Capacidad</th>
+                        <th>Precio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for x in hotel %}
+                    <tr>
+                        <td class="fw-bold">{{ x.numero }}</td>
+                        <td>{{ x.get_tipo_display }}</td>
+                        <td>{{ x.capacidad }} personas</td>
+                        <td>${{ x.precio }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center py-4 text-muted">
+                            No hay habitaciones registradas con estas características.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
-
 
 </body>
 </html>
