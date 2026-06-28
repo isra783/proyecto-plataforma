@@ -9,7 +9,11 @@
 
 <div class="container mt-5">
     <h1 class="mb-4 text-center text-primary">
-        {{ tipo_seleccionado }}
+        {% if tipo_seleccionado %}
+            Modelos de Habitación: {{ tipo_seleccionado }}
+        {% else %}
+            Todas las Habitaciones
+        {% endif %}
     </h1>
 
     <div class="mb-3">
@@ -25,6 +29,7 @@
                         <th>Tipo</th>
                         <th>Capacidad</th>
                         <th>Precio</th>
+                        <th>Estado</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,10 +39,17 @@
                         <td>{{ x.get_tipo_display }}</td>
                         <td>{{ x.capacidad }} personas</td>
                         <td>${{ x.precio }}</td>
+                        <td>
+                            {% if x.disponible %}
+                                <span class="badge bg-success">Disponible</span>
+                            {% else %}
+                                <span class="badge bg-danger">Ocupado</span>
+                            {% endif %}
+                        </td>
                     </tr>
                     {% empty %}
                     <tr>
-                        <td colspan="4" class="text-center py-4 text-muted">
+                        <td colspan="5" class="text-center py-4 text-muted">
                             No hay habitaciones registradas con estas características.
                         </td>
                     </tr>

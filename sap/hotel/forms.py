@@ -1,11 +1,11 @@
 from django import forms
-from .models import Reserva
+from .models import Reserva, Cliente
 
 
 class ReservaForm(forms.ModelForm):
     class Meta:
         model = Reserva
-        fields = ['cliente', 'habitacion', 'fecha_entrada', 'fecha_salida', 'estado']
+        fields = ['cliente', 'habitacion', 'fecha_entrada', 'fecha_salida', ]
 
         # Le damos clases de Bootstrap para el diseño
         widgets = {
@@ -13,7 +13,7 @@ class ReservaForm(forms.ModelForm):
             'habitacion': forms.Select(attrs={'class': 'form-select'}),
             'fecha_entrada': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'fecha_salida': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
-            'estado': forms.Select(attrs={'class': 'form-select'}),
+
         }
 
     # Validación personalizada
@@ -27,3 +27,8 @@ class ReservaForm(forms.ModelForm):
             raise forms.ValidationError("La fecha de salida no puede ser antes de la entrada.")
 
         return datos
+
+
+
+
+

@@ -1,6 +1,9 @@
+from django.contrib import messages
 from django.http import HttpResponseBadRequest
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from hotel.models import habitat
+from hotel.forms import ReservaForm,Reserva
+
 
 
 # Create your views here.
@@ -83,3 +86,67 @@ def hotel(request, codigo=None):
     })
 
 
+def reserva(request):
+    if request.method == 'POST':
+        form = ReservaForm(request.POST)
+        if form.is_valid():
+            # Guardamos la reserva
+            reserva = form.save(commit=False)
+            reserva.estado = 'pendiente'  # Aseguramos que inicie como pendiente
+            reserva.save()
+
+            messages.success(request, "Tu solicitud de reserva ha sido enviada con éxito.")
+            return redirect('inicio')  # O redirige a donde prefieras
+        else:
+            # Si el formulario no es válido, el error de validación (la fecha)
+            # se mostrará automáticamente en el template
+            pass
+    else:
+        form = ReservaForm()
+
+    return render(request, 'reserva.html', {'form': form})
+
+
+def editar_reserva(request, id):
+    reserva = get_object_or_404(Reserva, id=id)
+
+    # --- CANDADO DE SEGURIDAD ---
+    if reserva.estado == 'Aprobada' or reserva.estado == 'Completada':
+        messages.error(request, "Bloqueado: No puedes editar una reserva que ya está en curso o finalizada.")
+        return redirect('inicio')
+        # ----------------------------
+
+    if request.method == 'POST':
+        form = ReservaForm(request.POST, instance=reserva)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "La reserva ha sido actualizada correctamente.")
+            return redirect('inicio')
+    else:
+        form = ReservaForm(instance=reserva)
+
+    return render(request, 'editar.html', {'form': form, 'reserva': reserva})
+
+
+def eliminar(request, id):
+    reserva = get_object_or_404(Reserva, id=id)
+
+    # --- CANDADO DE SEGURIDAD ---
+    if reserva.estado == 'Aprobada' or reserva.estado == 'Completada':
+        messages.error(request, "Bloqueado: No puedes eliminar una reserva que ya está aprobada.")
+        return redirect('inicio')
+    # ----------------------------
+
+    if request.method == 'POST':
+        reserva.delete()
+        messages.success(request, "La reserva ha sido eliminada del sistema.")
+        return redirect('inicio')
+
+    return render(request, 'eliminar.html', {'reserva': reserva})
+
+
+def lista_reservas(request):
+    # Extraemos todas las reservas de la base de datos
+    reservas = Reserva.objects.all()
+    # Las enviamos al nuevo HTML
+    return render(request, 'lista_reservas.html', {'reservas': reservas})

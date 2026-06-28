@@ -16,14 +16,23 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path
-from hotel.views import hotel
+from hotel.views import hotel,reserva,eliminar, editar_reserva,lista_reservas
 from webapp.views import inicio
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('hotel/', hotel),
     path('inicio/', inicio, name='inicio'),
     re_path(r'^hotel/(?P<codigo>(s|d|f|pv))/$', hotel, name='detalle_habitacion'),
+    path('reserva/', reserva, name='reservacion'),
+    path('eliminar/<int:id>/', eliminar, name='eliminar_reservacion'),
+    path('editar/<int:id>/', editar_reserva,name='editar'),
+    path('lista-reservas/', lista_reservas, name='lista_reservas'),
+
+
+
 
 
 

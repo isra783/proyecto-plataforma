@@ -68,4 +68,16 @@ class Reserva(models.Model):
     estado = models.CharField(max_length=20, choices=estado_CHOICES, default='Pendiente')
 
     def __str__(self):
-        return f'Reserva de {self.cliente} - Hab: {self.habitacion.number} - Estado: {self.estado}'
+        return f"Reserva de {self.cliente} - Hab: {self.habitacion.numero} - Estado: {self.estado}"
+
+    def save(self, *args, **kwargs):
+        # 1. Primero guardamos la reserva de forma normal
+        super().save(*args, **kwargs)
+
+        # 2. Automatizamos el "interruptor" de la habitación
+        if self.estado == 'Aprobada':
+            self.habitacion.disponible = False
+            self.habitacion.save()
+        elif self.estado == 'Completada':
+            self.habitacion.disponible = True
+            self.habitacion.save()
