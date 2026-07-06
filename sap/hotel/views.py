@@ -92,7 +92,7 @@ def reserva(request):
         if form.is_valid():
             # Guardamos la reserva
             reserva = form.save(commit=False)
-            reserva.estado = 'pendiente'  # Aseguramos que inicie como pendiente
+            reserva.estado = 'Pendiente'  # Aseguramos que inicie como pendiente
             reserva.save()
 
             messages.success(request, "Tu solicitud de reserva ha sido enviada con éxito.")
